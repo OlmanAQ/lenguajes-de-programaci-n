@@ -10,6 +10,7 @@ type producto struct {
 	cantidad int
 	precio   int
 }
+
 type listaProductos []producto
 
 var lProductos listaProductos
