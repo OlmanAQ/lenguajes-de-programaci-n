@@ -19,9 +19,9 @@ func vender(l *[]calzado) {
 	}
 }
 
-func Stock(cal calzado, lista *[]calzado) {
+func Stock(cal calzado, l *[]calzado) {
 	for i := 0; i < 10; i++ {
-		*lista = append(*lista, cal)
+		*l = append(*l, cal)
 	}
 }
 
@@ -40,44 +40,30 @@ func main() {
 	var Adidas calzado
 	var UnderArmour calzado
 	var Cat calzado
-	var Magnanni calzado
-	var Bally calzado
-	var EdwardGreen calzado
-	var JohnLobb calzado
-	var Buscemi calzado
-	var Guidi calzado
+	var Adoc calzado
+	var Guicci calzado
 
-	// lC = lista Calzado[NombreCalzado]
+	lnike := []calzado{}
+	ladidas := []calzado{}
+	lUnderArmour := []calzado{}
+	lCat := []calzado{}
+	lAdoc := []calzado{}
+	lGuicci := []calzado{}
 
-	lCGeorgeCleverley := []calzado{}
-	lCoADiciannoveventitre := []calzado{}
-	lCSebastianTarek := []calzado{}
-	lCSantoni := []calzado{}
-	lCMagnanni := []calzado{}
-	lCBally := []calzado{}
-	lCEdwardGreen := []calzado{}
-	lCJohnLobb := []calzado{}
-	lCBuscemi := []calzado{}
-	lCGuidi := []calzado{}
+	Stock(crearCalzado(34, 1250, "Nike", Nike), &lnike)
+	Stock(crearCalzado(35, 3155, "Adidas", Adidas), &ladidas)
+	Stock(crearCalzado(36, 2802, "UnderArmour", UnderArmour), &lUnderArmour)
+	Stock(crearCalzado(37, 740, "Cat", Cat), &lCat)
+	Stock(crearCalzado(38, 895, "Adoc", Adoc), &lAdoc)
+	Stock(crearCalzado(43, 2121, "Guicci", Guicci), &lGuicci)
 
-	Stock(crearCalzado(34, 1250, "George Cleverley", Nike), &lCGeorgeCleverley)
-	Stock(crearCalzado(35, 3155, "A Diciannoveventitre", Adidas), &lCoADiciannoveventitre)
-	Stock(crearCalzado(36, 2802, "Sebastian Tarek", UnderArmour), &lCSebastianTarek)
-	Stock(crearCalzado(37, 740, "Santoni", Cat), &lCSantoni)
-	Stock(crearCalzado(38, 895, "Magnanni", Magnanni), &lCMagnanni)
-	Stock(crearCalzado(39, 650, "Bally", Bally), &lCBally)
-	Stock(crearCalzado(40, 2000, "Edward Green", EdwardGreen), &lCEdwardGreen)
-	Stock(crearCalzado(41, 1625, "John Lobb", JohnLobb), &lCJohnLobb)
-	Stock(crearCalzado(42, 1887, "Buscemi", Buscemi), &lCBuscemi)
-	Stock(crearCalzado(43, 2121, "Guidi", Guidi), &lCGuidi)
-
-	fmt.Println("\nLista de zapatos inicial: ", lCGeorgeCleverley)
-	fmt.Println("Tamaño de la lista: ", len(lCGeorgeCleverley))
+	fmt.Println("\nStock de Nike: ", lnike)
+	fmt.Println("Tamaño de la lista: ", len(lnike))
 
 	for i := 0; i < 10; i++ {
-		vender(&lCGeorgeCleverley)
+		vender(&lnike)
 	}
-	fmt.Println("\nLista de zapatos despues de 10 ventas: ", lCGeorgeCleverley)
-	fmt.Println("Tamaño de la lista: ", len(lCGeorgeCleverley))
+	fmt.Println("\nDespues de 10 ventas: ", lnike)
+	fmt.Println("Tamaño de la lista: ", len(lnike))
 
 }
