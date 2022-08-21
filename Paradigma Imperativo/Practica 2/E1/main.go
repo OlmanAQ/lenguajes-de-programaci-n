@@ -15,29 +15,24 @@ type listaProductos []producto
 
 var lProductos listaProductos
 
-type lProductosMinimos []producto
+var lProductosMinimos listaProductos
 
 const existenciaMinima int = 10 //la existencia mínima es el número mínimo debajo de el cual se deben tomar eventuales desiciones
 
 func (l *listaProductos) agregarProducto(nombre string, cantidad int, precio int) {
-	producto := producto{nombre: nombre, cantidad: cantidad, precio: precio}
-	if len(*l) == 0 {
-		*l = append(*l, producto)
-	} else {
-		for i := 0; i < len(*l); i++ {
-			if (*l)[i].nombre == nombre {
-				(*l)[i].cantidad += 1
-				if (*l)[i].precio != precio {
-					(*l)[i].precio = precio
-				}
-			} else {
-				*l = append(*l, producto)
-				break
-			}
+	var prod = l.buscarProducto(nombre)
+	if (prod) != -1 {
+		(*l)[prod].cantidad = (*l)[prod].cantidad + cantidad
+		if ((*l)[prod].precio) != precio {
+			(*l)[prod].precio = precio
 		}
+	} else {
+		lProductos = append(lProductos, producto{nombre: nombre, cantidad: cantidad, precio: precio})
 	}
+
 	// modificar el código para que cuando se agregue un producto, si este ya se encuentra, incrementar la cantidad
 	// de elementos del producto y eventualmente el precio si es que es diferente
+
 }
 
 func (l *listaProductos) buscarProducto(nombre string) int { //el retorno es el índice del producto encontrado y -1 si no existe
@@ -54,82 +49,71 @@ func (l *listaProductos) buscarProducto(nombre string) int { //el retorno es el 
 func (l *listaProductos) venderProducto(nombre string, cant int) {
 	var prod = l.buscarProducto(nombre)
 	if prod != -1 && cant > 0 {
-		if (*l)[prod].cantidad != 0 {
-			if (*l)[prod].cantidad > cant {
-				(*l)[prod].cantidad = (*l)[prod].cantidad - cant
-			} else if (*l)[prod].cantidad == cant {
-				(*l) = append((*l)[:prod], (*l)[prod+1:]...)
-				fmt.Println("Producto vendido se agotaron todas las existencias ")
-			} else {
-				fmt.Println("No se puede vender mayor cantidad de productos que los que hay en existencia")
-				fmt.Println("Cantidad de productos en stock:", (*l)[prod].cantidad)
+		if (*l)[prod].cantidad >= cant {
+			(*l)[prod].cantidad = (*l)[prod].cantidad - cant
+			if (*l)[prod].cantidad == 0 {
+				lProductos = append(lProductos[:prod], lProductos[prod+1:]...)
 			}
 		} else {
-			fmt.Println("El producto se encuentra agotado.")
+			fmt.Println("No se puede vayor cantidad de productos que los que hay en existencia")
 		}
-	} else {
-		fmt.Println("El producto no se encuentra en stock")
+
+		//modificar para que cuando no haya existencia de cantidad de productos, el producto se elimine de "la lista"
 	}
 }
-func llenarDatos() {
-	lProductos.agregarProducto("Arroz", 15, 2500)
-	lProductos.agregarProducto("Frijoles", 4, 2000)
-	lProductos.agregarProducto("Leche", 8, 1200)
-	lProductos.agregarProducto("Café", 12, 4500)
-	lProductos.agregarProducto("Azucar", 10, 1500)
-	lProductos.agregarProducto("Pescado", 5, 3500)
-	lProductos.agregarProducto("Queso", 20, 5500)
-	lProductos.agregarProducto("Mantequilla", 7, 800)
 
+func llenarDatos() {
+	lProductos.agregarProducto("arroz", 15, 2500)
+	lProductos.agregarProducto("frijoles", 4, 2000)
+	lProductos.agregarProducto("leche", 8, 1200)
+	lProductos.agregarProducto("café", 12, 4500)
 }
 
-func listarProdMínimos(l *listaProductos) []producto {
-	var listaMinimos []producto
+func listarProductosMínimos(l *listaProductos) {
 	for i := 0; i < len((*l)); i++ {
 		if (*l)[i].cantidad <= existenciaMinima {
-			listaMinimos = append(listaMinimos, (*l)[i])
+			lProductosMinimos = append(lProductosMinimos, (*l)[i])
 		}
 	}
-	return listaMinimos
 }
 func aumentarInventarioDeMinimos(l *listaProductos) {
 	for producto := 0; producto < len((*l)); producto++ {
-		if (*l)[producto].cantidad <= 10 {
-			(*l)[producto].cantidad = 10
+		if (*l)[producto].cantidad <= existenciaMinima {
+			(*l)[producto].cantidad = existenciaMinima
 		}
 	}
 }
 
-// SORT SLICE OF STRUCTURES
-func sortSliceOfStructures(l *listaProductos, atributo string) {
-	switch atributo {
-	case "nombre":
+func ordenarInventario(l *listaProductos, llave int) {
+	switch llave {
+	case 1:
 		sort.Slice(*l, func(i, j int) bool { return (*l)[i].nombre < (*l)[j].nombre })
-		fmt.Println("\nOrdenado por el nombre:", *l)
-	case "cantidad":
+		fmt.Println("Orden por llave nombre")
+	case 2:
 		sort.Slice(*l, func(i, j int) bool { return (*l)[i].cantidad < (*l)[j].cantidad })
-		fmt.Println("\nOrdenado por la cantidad:", *l)
-	case "precio":
+		fmt.Println("Orden por llave cantidad")
+	case 3:
 		sort.Slice(*l, func(i, j int) bool { return (*l)[i].precio < (*l)[j].precio })
-		fmt.Println("\nOrdenado por el precio:", *l)
+		fmt.Println("\nOrden por llave precio")
 	}
 }
 
 func main() {
 	llenarDatos()
-	/*
-		fmt.Println("\nLista de productos inicial: ", lProductos, "\n")
-		sortSliceOfStructures(&lProductos, "nombre")
-	*/
-	fmt.Println("\n------------------ lista inicial ------------------")
+
 	fmt.Println("\nLista de Productos inicial: ", lProductos)
 
-	fmt.Println("\n------------------ Lista de minimos ------------------")
-	lProductosMinimos := listarProdMínimos(&lProductos)
+	listarProductosMínimos(&lProductos)
 	fmt.Println("\nLista de Productos minimos: ", lProductosMinimos)
 
-	fmt.Println("\n---------- Aumento de cantidad a productos minimos en lista productos ----------")
-	aumentarInventarioDeMinimos(&lProductos)
-	fmt.Println("\nLista de Productos con minimos aumentados: ", lProductos)
+	aumentarInventarioDeMinimos(&lProductosMinimos)
+	fmt.Println("\nLista de Productos con minimos constantes: ", lProductosMinimos)
+
+	/*
+		fmt.Println("Lista de productos inicial: ", lProductos)
+		ordenarInventario(&lProductos, 1)
+
+		fmt.Println(lProductos)
+	*/
 
 }
