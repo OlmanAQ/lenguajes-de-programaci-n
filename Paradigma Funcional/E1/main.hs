@@ -8,7 +8,8 @@ import Data.List
 
 
 sub_cadenas :: String -> [String] -> [String]
-sub_cadenas str list = filter (isInfixOf str) list
+sub_cadenas str list = 
+    filter (isInfixOf str) list
 
 
 main :: IO ()
