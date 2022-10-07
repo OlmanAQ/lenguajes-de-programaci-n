@@ -16,20 +16,15 @@ listarExistenciaMinima minimo listaProductos =
 
 
 
---calcularMontoVenta listaProductos
+--calcularMontoVenta listaProductos = sum (map precio listaProductos)
 
 calcularMontoVenta listaProductos = 
-    sum (map precio listaProductos)
-
-
+    foldl (\acum prod -> acum + (precio prod)) 0 listaProductos
 
 
 --calcularMontoVenta con impuesto 13%
-calcularMontoVentaImpuesto listaProductos =
-    sum (map precioImpuesto listaProductos)
-    where
-        precioImpuesto prod = (precio prod) * 0.13
-    
+calcularMontoVentaImpuesto listaProductos = 
+    foldl (\acum prod -> acum + (precio prod)) 0 listaProductos * 0.13
 
 
 main :: IO ()
@@ -53,6 +48,7 @@ main = do
 
     montoTotal <- return (montoVenta + impuesto)
     print("Monto total: " ++ show(montoTotal))
+
 
 
 
