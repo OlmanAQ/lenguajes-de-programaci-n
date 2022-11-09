@@ -29,7 +29,6 @@ public abstract class Contacto{
         this.persona = c.getPersona();
         this.direccion = c.getDireccion();
         this.telefono = c.getTelefono();
-        super
     }
     public abstract void imprimir();
 
