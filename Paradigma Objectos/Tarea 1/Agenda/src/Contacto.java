@@ -25,14 +25,14 @@ public abstract class Contacto{
         return telefono;
     }
 
-    public void modificarC(Contacto c) {
-        persona = c.persona;
-        direccion = c.direccion;
-        telefono = c.telefono;
+    public void modificarCT1(Contacto c){
+        this.persona = c.getPersona();
+        this.direccion = c.getDireccion();
+        this.telefono = c.getTelefono();
+        super
     }
-
     public abstract void imprimir();
-  
+
 
 
 }

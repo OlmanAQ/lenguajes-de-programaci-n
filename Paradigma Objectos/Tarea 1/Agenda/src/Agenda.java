@@ -27,10 +27,10 @@ public class Agenda {
         }
     }
     //modificar Contacto
-    public void modificarContacto(String nombre, Contacto c) {
+    public void modificarContactoT1(String nombre, ContactoT1 c) {
         for(Contacto q: this.contactos){
             if (q.getPersona().getNombre().equals(nombre))
-                q.modificarC(c);
+                q.modificarCT1(c);
         }
     }
 

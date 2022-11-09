@@ -12,6 +12,10 @@ public class ContactoT1 extends Contacto{
     }
 
 
+    public void modificarCT1(ContactoT1 c){
+        this.correo = c.correo;
+    }
+
     @Override
     public void imprimir(){
         //System.out.println("CONTACTO1 : " + this.toString());
